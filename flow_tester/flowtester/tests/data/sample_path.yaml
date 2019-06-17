@@ -1,0 +1,111 @@
+- EXAMPLE_1:
+    test_1:
+      description: "description"
+      steps:
+        - STEP_1:
+            id: 1
+            data: 
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_2:
+            id: 2
+            data: 
+            expectations: 
+              expectation_1: True
+              expectation_2: False
+        - STEP_3:
+            id: 3
+            data: 
+            expectations: 
+              expectation_1: True
+              expectation_2: False
+        - STEP_4:
+            id: 4
+            data: 
+            expectations:
+              expectation_1: True
+              expectation_2: False
+    test_2:
+      description: "description"
+      steps:
+        - STEP_1:
+            id: 1
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_2:
+            id: 2
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_3:
+            id: 3
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_4:
+            id: 4
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+
+- EXAMPLE_2:
+    test_1:
+      description: "description"
+      steps:
+        - STEP_1:
+            id: 1
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_2:
+            id: 2
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_3:
+            id: 3
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_4:
+            id: 4
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+    test_2:
+      description: "description"
+      steps:
+        - STEP_1:
+            id: 1
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_2:
+            id: 2
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_3:
+            id: 3
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False
+        - STEP_4:
+            id: 4
+            data:
+            expectations:
+              expectation_1: True
+              expectation_2: False

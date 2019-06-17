@@ -1,0 +1,63 @@
+model: SAMPLE_STATE_MACHINE
+description: "A sample state machine definition for a VM."
+initial_state: DOES_NOT_EXIST
+definition:
+
+- DOES_NOT_EXIST:
+    description: "Base State: VM does not exist"
+    validations:
+
+    transitions:
+    - routine_to_change_state: object_model.create
+      destination_state: ACTIVE
+      trigger_name: CREATE
+
+- ACTIVE:
+    description: "STATE: Server is in ACTIVE state."
+    validations:
+    - name: active
+      routine:  object_model.is_active
+
+    transitions:
+    - routine_to_change_state: object_model.in_error
+      destination_state: ERRORED
+      trigger_name: ERROR
+
+    - routine_to_change_state: object_model.delete_server
+      destination_state: DELETED
+      trigger_name: DELETE
+
+- ERRORED:
+    description: "STATE: Server is in ERROR state. Terminal."
+    validations:
+    - name: in_error
+      routine: object_model.in_error
+
+- DELETED:
+    description: "STATE: Server has been deleted."
+    validations:
+    - name: exists
+      routine: object_model.exists
+
+- BOGUS_STATE:
+    description: "No way to get here"
+    validations:
+    transitions:
+      - routine_to_change_state: object_model.in_error
+        destination_state: ERRORED
+        trigger_name: ILLEGAL_TRIGGER
+
+- __MULTI_TRIGGERS__:
+    - trigger_name: multi_trigger_test_from_all
+      description: test_all
+      routine_to_change_state: object_model.in_error
+      destination_state: ERRORED
+      source_states: "*"
+
+    - trigger_name: multi_trigger_test_from_select_states
+      description: test_select
+      routine_to_change_state: object_model.in_error
+      destination_state: ERRORED
+      source_states:
+        - ACTIVE
+        - DELETED

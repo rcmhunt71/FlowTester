@@ -1,0 +1,15 @@
+   model: SAMPLE_VM
+description: "A sample state machine definition for a VM."
+initial_state: DOES_NOT_EXIST
+definition:
+
+- DOES_NOT_EXIST:
+    description: "Base State: VM does not exist"
+    validations:
+    - name: existence
+      routine: object_model.does_server_exist
+
+    transitions:
+    - routine_to_change_state: object_model.create_server
+      destination_state: BUILDING
+      trigger_name: CREATE

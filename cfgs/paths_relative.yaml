@@ -1,0 +1,46 @@
+- EXAMPLE:
+    build_success_relative:
+      description: "build_success_relative"
+      reference: "paths.yaml:EXAMPLE:build_success"
+      ADD_STEPS: []
+      DEL_STEPS: [BS_4, BS_10, BS_13]
+      MOD_STEPS: []
+
+    bad_trigger_2:
+      description: "bad_trigger_2_tc"
+      reference: "paths.yaml:EXAMPLE:bad_trigger"
+      ADD_STEPS:
+
+        - DELETE:
+           before_id: bad_trigger_1
+           id: BS_1
+           data: None
+           expectations:
+             building: True
+             test_me: False
+
+        - DELETE:
+           before_id: bad_trigger_1
+           id: BS_2
+           data: None
+           expectations:
+             building: True
+             test_me: False
+
+      DEL_STEPS: [bad_trigger_2]
+
+      MOD_STEPS:
+        - CREATE:
+           id: bad_trigger_1
+           data:
+           expectations:
+             building: True
+             test_me: False
+             new_validation: True
+
+    foo_mess_relative:
+      description: "foo_mess_relative"
+      reference: "paths.yaml:FOO:complete_mess"
+      ADD_STEPS: []
+      DEL_STEPS: []
+      MOD_STEPS: []

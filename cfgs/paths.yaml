@@ -1,0 +1,180 @@
+- EXAMPLE:
+    build_success:
+      description: "Complete traversal through work flow."
+      steps:
+        - CREATE:
+            id: BS_1
+            data: 
+            expectations:
+              building: True
+              test_me: False
+        - BUILD_SUCCESS:
+            id: BS_2
+            data:
+            expectations:
+        - PAUSE:
+            id: BS_3
+            data: 
+            expectations:
+              is_paused_1: True
+              is_paused_2: True
+        - DELETE:
+            id: BS_4
+            data: 
+            expectations: 
+        - UNPAUSE:
+            id: BS_5
+            data: 
+            expectations: 
+        - RESIZE:
+            id: BS_6
+            data: 
+            expectations: 
+        - REBOOT:
+            id: BS_7
+            data: 
+            expectations:
+              active: True
+        - ADD_METADATA:
+            id: BS_8
+            data: {"key": "State Machines", "value": "Rock!"}
+            expectations: 
+        - LOCK:
+            id: BS_9
+            data: 
+            expectations: 
+        - REBOOT:
+            id: BS_10
+            data: 
+            expectations: 
+        - UNLOCK:
+            id: BS_11
+            data: 
+            expectations: 
+        - DELETE:
+            id: BS_12
+            data: 
+            expectations: 
+        - DEL_SUCCESS:
+            id: BS_13
+            data:
+            expectations:
+              exists: False
+
+    delete_fail:
+      description: "Fail the delete through longer work flow."
+      steps:
+        - CREATE:
+            id: 1
+            data: 
+            expectations: 
+        - BUILD_SUCCESS:
+            id: 2
+            data: 
+            expectations: 
+        - PAUSE:
+            id: 3
+            data: 
+            expectations: 
+        - DELETE:
+            id: 4
+            data: 
+            expectations: 
+        - UNPAUSE:
+            id: 5
+            data: 
+            expectations: 
+        - ADD_METADATA:
+            id: 6
+            data: 
+            expectations: 
+        - DELETE:
+            id: 7
+            data: 
+            expectations: 
+        - DEL_FAILURE:
+            id: 8
+            data: 
+            expectations: 
+
+    build_fail:
+      description: "Take fail path during the delete sequence."
+      steps:
+        - CREATE:
+            id: fail_1
+            data: 
+            expectations: 
+        - BUILD_FAILURE:
+            id: fail_2
+            data: 
+            expectations:
+              in_error: True
+        - DELETE:
+            id: fail_3
+            data: 
+            expectations: 
+        - DEL_SUCCESS:
+            id: fail_4
+            data: 
+            expectations:
+              exists: False
+
+    simple_build:
+      description: "Simplest flow through the system."
+      steps:
+        - CREATE:
+            id: A
+            data: 
+            expectations:
+              building: True
+              test_me: False
+        - BUILD_SUCCESS:
+            id: B
+            data: 
+            expectations: 
+        - DELETE:
+            id: C
+            data:
+            expectations: 
+        - DEL_SUCCESS:
+            id: D
+            data:
+            expectations:
+              exists: False
+
+    bad_trigger:
+      description: "Flow has undefined trigger"
+      steps:
+        - CREATE:
+            id: bad_trigger_1
+            data: 
+            expectations: 
+        - BUILD_ABORT:
+            id: bad_trigger_2
+            data: 
+            expectations: 
+        - DELETE:
+            id: bad_trigger_3
+            data: 
+            expectations: 
+        - DEL_SUCCESS:
+            id: bad_trigger_4
+            data: 
+            expectations: 
+
+- FOO:
+    complete_mess:
+      description: "Not starting at machine initial state."
+      steps:
+        - DELETE:
+            id: 1
+            data: 
+            expectations: 
+        - CREATE:
+            id: 2
+            data: 
+            expectations: 
+        - DELETE:
+            id: 3
+            data: 
+            expectations: 

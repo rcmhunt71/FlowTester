@@ -1,0 +1,132 @@
+model: SAMPLE_VM
+description: "A sample state machine definition for a VM."
+initial_state: DOES_NOT_EXIST
+definition:
+
+- DOES_NOT_EXIST:
+    description: "Base State: VM does not exist"
+    validations:
+    - name: existence
+      routine: object_model.does_server_exist
+
+    transitions:
+    - routine_to_change_state: object_model.create_server
+      destination_state: BUILDING
+      trigger_name: CREATE
+
+- BUILDING:
+    description: "STATE: Server is being provisioned (building)."
+    validations:
+    - name: building
+      routine: object_model.building_server
+
+    transitions:
+    - routine_to_change_state: object_model.building_server
+      destination_state: ACTIVE
+      trigger_name: BUILD_SUCCESS
+
+    - routine_to_change_state: object_model.building_server_fail
+      destination_state: ERROR
+      trigger_name: BUILD_FAILURE
+
+- ERROR:
+    description: "STATE: Server is in ERROR state. Terminal."
+    validations:
+    - name: in_error
+      routine: object_model.is_server_in_error
+
+- ACTIVE:
+    description: "STATE: Server is in ACTIVE state."
+    validations:
+    - name: active
+      routine:  object_model.is_server_active
+    - name: test_me
+      routine: object_model.no_such_function
+
+    transitions:
+    - routine_to_change_state: object_model.pause_server
+      destination_state: PAUSED
+      trigger_name: PAUSE
+
+    - routine_to_change_state: object_model.lock_server
+      destination_state: LOCKED
+      trigger_name: LOCK
+
+    - routine_to_change_state: object_model.delete_server
+      destination_state: DELETING
+      trigger_name: DELETE
+
+    - routine_to_change_state: object_model.reboot_server
+      destination_state: ACTIVE
+      trigger_name: REBOOT
+
+    - routine_to_change_state: object_model.resize_server
+      destination_state: ACTIVE
+      trigger_name: RESIZE
+
+    - routine_to_change_state: object_model.add_metadata
+      destination_state: ACTIVE
+      trigger_name: ADD_METADATA
+
+- PAUSED:
+    description: "STATE: Server is Currently Paused."
+    validations:
+    - name: is_paused_1
+      routine: object_model.is_server_paused
+    - name: is_paused_2
+      routine: object_model.is_server_paused
+
+    transitions:
+    - routine_to_change_state: object_model.unpause_server
+      destination_state: ACTIVE
+      trigger_name: UNPAUSE
+
+- LOCKED:
+    description: "STATE: Server is Currently Locked."
+    validations:
+    - name: is_locked
+      routine: object_model.is_server_locked
+
+    transitions:
+    - routine_to_change_state: object_model.unlock_server
+      destination_state: ACTIVE
+      trigger_name: UNLOCK
+
+- DELETING:
+    description: "STATE: Server is in process of being deleted."
+    validations:
+    - name: deleting
+      routine: object_model.is_server_deleting
+
+    transitions:
+    - routine_to_change_state: object_model.deleting_server
+      destination_state: DELETED
+      trigger_name: DEL_SUCCESS
+
+    - routine_to_change_state: object_model.deleting_server
+      destination_state: ERROR
+      trigger_name: DEL_FAILURE
+
+- DELETED:
+    description: "STATE: Server has been deleted."
+    validations:
+    - name: exists
+      routine: object_model.does_server_exist
+    - name: released
+      routine: object_model.resource_levels_at_zero
+
+
+- __MULTI_TRIGGERS__:
+    - trigger_name: multi_trigger_test_from_all
+      description: test_all
+      routine_to_change_state: object_model.in_error
+      destination_state: ERROR
+      source_states: "*"
+
+    - trigger_name: multi_trigger_test_from_select_states
+      description: test_select
+      routine_to_change_state: object_model.in_error
+      destination_state: ERROR
+      source_states:
+        - ACTIVE
+        - DELETED

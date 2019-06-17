@@ -1,0 +1,4 @@
+- EXAMPLE_1:
+    test_1:
+      description: "description"
+      reference: sample_path.yaml:EXAMPLE_1:test_1
